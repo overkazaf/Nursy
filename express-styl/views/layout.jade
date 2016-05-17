@@ -1,0 +1,24 @@
+doctype html
+html
+	head
+		meta(chartset='utf-8')
+		meta(http-equiv='Content-Type', content='text/html')
+		meta(http-equiv='X-UA-Compatible', content='IE=Edge,Chrome=1')
+		meta(param='renderer', content='webkit')
+		title= title
+		link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+		link(rel='stylesheet', href='/stylesheets/style.css')
+		script(type='text/javascript', src='/javascripts/jquery.min.js')
+		script(type='text/javascript', src='/javascripts/bootstrap.min.js')
+	body
+		nav.navbar.navbar-default.navbar-static-top
+			.container
+				- var navs = ['查询', '新增病例', '注销'];
+				ul.nav.navbar-nav
+					each val, key in navs
+						li
+							if key < 1
+								a.active #{val}
+							else
+								a #{val}
+		block content

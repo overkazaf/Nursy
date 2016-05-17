@@ -1,0 +1,67 @@
+extends layout
+
+block content
+	.row
+		.col-md-8.col-md-offset-2
+			form
+				.form-group
+					input(type="text", class="form-control", placeholder="请输入检索条件")
+				.pull-left
+					a(href="", class="ml20") 最近就诊
+					a(href="", class="ml20") 高血压
+					a(href="", class="ml20") 糖尿病
+	hr
+	.row			
+		.col-md-8.col-md-offset-2
+			table.table.table-striped.table-condensed
+				thead
+					th ID
+					th 姓名
+					th 病症分类
+					th 症状描述
+					th 联系电话
+					th 就诊时间 
+					th 操作 
+				tbody
+					mixin row(item)
+						tr
+							td #{item.id}
+							td #{item.name}
+							td #{item.deseaseType}
+							td #{item.deseaseDesc}
+							td #{item.phone}
+							td #{item.visitDate}
+							td.ctrl-btns
+								button(class="btn btn-default btn-xs") 
+									i(class="glyphicon glyphicon-eye-open")
+									详情
+								button(class="btn btn-danger btn-xs") 
+									i(class="glyphicon glyphicon-trash")
+									删除
+					each value, key in data
+						+row(value)
+	.row			
+		.col-md-8.col-md-offset-2
+			nav
+				script.
+					$(function (){
+						function pageItemTpl (index) {
+							var tpl = '<li><a href="">'+ index +'</a></li>';
+							return tpl;
+						}
+						function buildPagination ($dom, c, t){
+							var tpl = '';
+							tpl += '<li><a href="#" aria-label="Previous"><span>&laquo;</span></a></li>';
+							for (var i = 1; i <= t; i++) {
+								tpl += pageItemTpl(i);
+							}
+							tpl += '<li><a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>';
+							$dom.html(tpl);
+						}
+						var $ul = $('#pagination');
+						var current = +$ul.attr('data-current');
+						var total = +$ul.attr('data-total');
+						buildPagination($ul, current, total);
+					});
+				ul(class="pagination pull-right", id="pagination", data-current="#{current}",  data-total="#{totalPages}")
+					

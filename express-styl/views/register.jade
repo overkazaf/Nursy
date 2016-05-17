@@ -1,0 +1,30 @@
+extends layout
+block content
+	.col-md-5.col-md-offset-4
+		.panel.panel-default
+			.panel-heading
+				新用户注册
+				a(class="pull-right", href="/login") 登陆
+			.panel-body
+				form
+					.form-group
+						label 用户名
+						input(type="text", class="form-control", id="username", placeholder="用户名")
+					.form-group
+						label 密码
+						input(type="password", class="form-control", id="password")
+					.form-group
+						label 确认密码
+						input(type="password", class="form-control", id="validPassword")
+					hr
+					.form-group
+						label 手机号
+						input(type="phone", class="form-control", id="username", placeholder="手机号")
+					.form-group
+						label 邮箱
+						input(type="email", class="form-control", id="username", placeholder="邮箱")
+					.checkbox
+						label
+							input(type="checkbox")
+							我同意本网站的用户协议
+					butotn(type="submit", class="btn btn-success btn-block") 注册

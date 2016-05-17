@@ -1,0 +1,25 @@
+body {
+  padding: 0 0 50px 0;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.ml20 {
+	margin-left: 20px;
+}
+
+td.ctrl-btns button{
+	margin-right: 10px;
+}
+
+.radio-line {
+	margin-left: 30px;
+	margin-right: 10px;
+}
+
+.desease-dropdown {
+	margin-left: 40px;
+}
