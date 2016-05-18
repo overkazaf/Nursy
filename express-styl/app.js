@@ -14,6 +14,7 @@ var register = require('./routes/register');
 var patient = require('./routes/patient');
 var mongoose = require('mongoose');
 var provider = require('./config/mongoose.js');
+var deseaseType = require('./routes/deseaseType');
 
 
 var app = express();
@@ -38,12 +39,9 @@ app.get('/', routes);
  * @param  {[type]} res)   [description]
  * @return {[type]}        [description]
  */
-app.get('/deseaseType', function (req, res){
-  var desTypeCtrl = require('./controllers/deseaseType.js');
-  desTypeCtrl.list(req, res);
-});
+app.use('/deseaseType', deseaseType);
 // app.use('/users', users);
-// app.use('/lists', lists);
+app.use('/lists', lists);
 // app.use('/login', login);
 // app.use('/register', register);
 app.use('/patient', patient);

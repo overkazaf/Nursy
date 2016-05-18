@@ -13,12 +13,9 @@ html
 	body
 		nav.navbar.navbar-default.navbar-static-top
 			.container
-				- var navs = ['查询', '新增病例', '注销'];
+				- var navs = {'查询': '/lists', '新增病例': '/patient', '注销': '/logout'};
 				ul.nav.navbar-nav
 					each val, key in navs
 						li
-							if key < 1
-								a.active #{val}
-							else
-								a #{val}
+							a(href="#{val}")= key
 		block content

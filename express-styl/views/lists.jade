@@ -10,13 +10,15 @@ block content
 					a(href="", class="ml20") 最近就诊
 					a(href="", class="ml20") 高血压
 					a(href="", class="ml20") 糖尿病
+				.pull-right
+					button(class="btn btn-primary", id="query") 查询
 	hr
 	.row			
 		.col-md-8.col-md-offset-2
 			table.table.table-striped.table-condensed
 				thead
-					th ID
 					th 姓名
+					th 身份证号
 					th 病症分类
 					th 症状描述
 					th 联系电话
@@ -25,18 +27,18 @@ block content
 				tbody
 					mixin row(item)
 						tr
-							td #{item.id}
 							td #{item.name}
-							td #{item.deseaseType}
-							td #{item.deseaseDesc}
+							td #{item.person_id}
+							td #{item.desease_type}
+							td #{item.detail}
 							td #{item.phone}
-							td #{item.visitDate}
+							td #{item.visit_date}
 							td.ctrl-btns
-								button(class="btn btn-default btn-xs") 
+								button(class="btn btn-default btn-xs", data-pid="#{item.id}") 
 									i(class="glyphicon glyphicon-eye-open")
 									详情
 								button(class="btn btn-danger btn-xs") 
-									i(class="glyphicon glyphicon-trash")
+									i(class="glyphicon glyphicon-trash", data-pid="#{item.id}")
 									删除
 					each value, key in data
 						+row(value)

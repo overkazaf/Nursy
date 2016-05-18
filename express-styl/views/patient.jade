@@ -1,24 +1,35 @@
 extends layout
 block content
-	link(rel='stylesheet', href='/stylesheets/bootstrap-datetimepicker.css')
-	script(type="text/javascript", src="/javascripts/bootstrap-datetimepicker.min.js")
+	script(type="text/javascript", src="/plugins/laydate.js")
 	script.
 		$(function (){
-			$.fn.datetimepicker.dates['en'] = {
-			    days: ["星期天", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期天"],
-			    daysShort: ["日", "一", "二", "三", "四", "五", "六", "日"],
-			    daysMin: ["日", "一", "二", "三", "四", "五", "六", "日"],
-			    months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
-			    monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-			    today: "今天"
-			};
-			$('#birthday').datetimepicker({
-				format : 'yyyy-mm-dd',
-				minView : 'month',
-				viewSelect : 'decade',
-				autoclose: true,
-				language : 'cn'
+			$('#birthday').click(function (){
+				laydate({
+					istime : true,
+					format: 'YYYY-MM-DD',
+					elem: '#birthday'
+				});
 			});
+
+			$('#visit_date').click(function (){
+				laydate({
+					istime : true,
+					format: 'YYYY-MM-DD',
+					elem: '#visit_date'
+				});
+			});
+
+			$('.dropdown-menu').on('click', 'li', function (ev){
+				var $target = $(ev.target);
+				var selectedType = $target.text();
+				var $ctx = $target.closest('.form-group');
+				$(this).addClass('active').siblings().removeClass('active');
+				$ctx.find('.deseaseType').html(selectedType);
+				$ctx.find('input[name="desease_type"]').val(selectedType);
+
+				ev.preventDefault();
+			});
+
 		});
 	.row
 		.col-md-8.col-md-offset-2
@@ -38,6 +49,17 @@ block content
 									label 年龄
 									input(type="number", class="form-control", id="age", name="age", placeholder="年龄")
 								.form-group
+									label 病症分类
+									input(type="hidden", name="desease_type")
+									.btn-group.desease-dropdown
+										button(type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false")
+											span.deseaseType 请选择病症分类
+											span.caret
+										ul.dropdown-menu
+											each value, key in data.data
+												li
+													a(href="javascript:void(0)")= value.desease_name
+								.form-group
 									label 姓别
 									label.radio-line 男   
 										input(type="radio", name="gender", checked, value="男")
@@ -45,19 +67,18 @@ block content
 										input(type="radio", name="gender", value="女")
 								.form-group
 									label 出生日期
-									input(type="text", class="form-control", name="birthday", id="birthday", data-date-format="yyyy-mm-dd", size="16", placeholder="出生日期", readonly)
+									input(type="text", class="form-control datepicker", name="birthday", id="birthday", data-date-format="yyyy-mm-dd", size="16", placeholder="出生日期", readonly)
+								.form-group
+									label 就诊时间
+									input(type="text", class="form-control datepicker", name="visit_date", id="visit_date", data-date-format="yyyy-mm-dd", size="16", placeholder="就诊时间", readonly)
+								.form-group
+									label 身体证号
+									input(type="text", class="form-control", id="person_id", name="person_id", placeholder="身体证号")
 								.form-group
 									label 手机号
 									input(type="number", class="form-control", id="phone", name="phone", placeholder="手机号")
-								.form-group
-									label 病症分类
-									.btn-group.desease-dropdown
-										button(type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false") 请选择病症分类
-											span.caret
-										ul.dropdown-menu
-											li
-												a(href="#") Action
+
 								.form-group
 									label 病症详情
-									textarea(class="form-control" rows="3")
-								button(type="submit", class="pull-right btn btn-primary btn-block") 确认添加
+									textarea(name="detail", class="form-control" rows="3")
+								button(type="submit", class="pull-right btn btn-primary btn-block", id="confirmSubmit") 确认添加
