@@ -11,7 +11,10 @@ var lists = require('./routes/lists');
 var login = require('./routes/login');
 var detail = require('./routes/detail');
 var register = require('./routes/register');
-var addPatient = require('./routes/addPatient');
+var patient = require('./routes/patient');
+var mongoose = require('mongoose');
+var provider = require('./config/mongoose.js');
+
 
 var app = express();
 
@@ -27,13 +30,24 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-//app.use('/users', users);
-app.use('/lists', lists);
-app.use('/login', login);
-app.use('/register', register);
-app.use('/addPatient', addPatient);
-app.use('/detail', detail);
+app.get('/', routes);
+
+/**
+ * [返回疾病类型的接口]
+ * @param  {[type]} req    [description]
+ * @param  {[type]} res)   [description]
+ * @return {[type]}        [description]
+ */
+app.get('/deseaseType', function (req, res){
+  var desTypeCtrl = require('./controllers/deseaseType.js');
+  desTypeCtrl.list(req, res);
+});
+// app.use('/users', users);
+// app.use('/lists', lists);
+// app.use('/login', login);
+// app.use('/register', register);
+app.use('/patient', patient);
+// app.use('/detail', detail);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -65,6 +79,18 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
+
+//mongoose.connect('mongodb://localhost/test');
+
+var db = mongoose.connection;
+db.on('error', function (){
+  console.error.bind(console, 'connection error:')
+  mongoose.disconnect();
+});
+db.once('open', function (callback) {
+  var doctor = mongoose.model('Doctor');
+});
+
 
 
 module.exports = app;

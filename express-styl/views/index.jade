@@ -1,9 +1,8 @@
 extends layout
 
 block content
-	nav
-	- var a = [1,2,3,4]
-	ul.pagination
-		each value, key in a
-			li
-				a item #{value}
+	.col-md-8.col-md-offset-2
+		ul
+			each value, key in data
+				li
+					a= value

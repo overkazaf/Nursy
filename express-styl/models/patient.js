@@ -3,6 +3,7 @@ var DeseaseType = mongoose.model('DeseaseType');
 
 var patientSchema = new mongoose.Schema({
 	//pat_id : String,
+	patient_id : String,
 	name : String,
 	gender : String,
 	age : Number,

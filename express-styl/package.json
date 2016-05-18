@@ -15,8 +15,10 @@
     "serve-favicon": "~2.3.0"
   },
   "devDependencies": {
+    "async": "^2.0.0-rc.5",
     "bootstrap": "^3.3.6",
     "gulp": "^3.9.1",
-    "jquery": "^2.2.3"
+    "jquery": "^2.2.3",
+    "mongoose": "^4.4.17"
   }
 }
