@@ -50,13 +50,13 @@ block content
 									input(type="number", class="form-control", id="age", name="age", placeholder="年龄")
 								.form-group
 									label 病症分类
-									input(type="hidden", name="desease_type")
+									input(type="hidden", name="desease_type", value="其它")
 									.btn-group.desease-dropdown
 										button(type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false")
 											span.deseaseType 请选择病症分类
 											span.caret
 										ul.dropdown-menu
-											each value, key in data.data
+											each value, key in data
 												li
 													a(href="javascript:void(0)")= value.desease_name
 								.form-group

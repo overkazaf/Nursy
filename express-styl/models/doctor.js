@@ -5,9 +5,10 @@ var doctorSchema = new mongoose.Schema({
 	username : String,
 	password : String,
 	email : String,
+	phone : String,
 	name : String,
 	created_by : String,
-	created_date : Date
+	created_date : String
 });
 
 

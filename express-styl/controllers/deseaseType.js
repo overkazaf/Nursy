@@ -52,14 +52,16 @@ exports.list = function (req, res, callback){
 		data : []
 	};
 	DeseaseType.find(function (err, collection){
-		async.forEach(collection, function (item, callback){
+		async.forEach(collection, function (item, cb){
 			++results.counts;
 			results.data.push(item);
-			callback();
+			cb();
 		}, function(err) {
 			if (err) {
 				results.success = false;
+				throw err;
 			}
+			console.log('results', results);
 			if (callback) {
 				callback(results);
 			} else {
@@ -71,17 +73,9 @@ exports.list = function (req, res, callback){
 
 
 exports.del = function (req, res){
-	// 取所有的疾病，展示出来
-	res.render('index', {
-		title : 'testing',
-		data : [1,2,3,4]
-	});
+	//
 };
 
 exports.update = function (req, res){
-	// 取所有的疾病，展示出来
-	res.render('index', {
-		title : 'testing',
-		data : [1,2,3,4]
-	});
+	//
 };

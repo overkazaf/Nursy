@@ -4,27 +4,47 @@ var descTypeCtrl = require('../controllers/deseaseType.js');
 var patientCtrl = require('../controllers/patient.js');
 
 router.get('/', function(req, res, next) {
-	descTypeCtrl.list(req, res, function (list){
-	    res.render('patient', { 
-	    	title: '新增病例',
-	    	data : list
-	    });
+	descTypeCtrl.list(req, res, function (msg){
+	    if (msg.success == true) {
+	    	res.render('patient', { 
+		    	title: '新增病例',
+		    	data : msg.data
+		    });
+	    }
 	});
+});
+
+router.get('/get/:name', function(req, res, next) {
+	patientCtrl.get(req, res, function (msg){
+	    if (msg.success == true) {
+	    	res.render('lists', { 
+		    	title: '检索结果',
+		    	data : msg.data
+		    });
+	    }
+	});
+});
+
+router.get('/get', function (req, res, next){
+	res.set('Location', ('http://localhost:3000/lists'));
+	res.send(201);
 });
 
 router.post('/create', function(req, res, next) {
     patientCtrl.create(req, res, function (msg) {
     	if (msg.success == true) {
-    		res.render('patient', { 
-		    	title: '新增病例',
+    		res.render('lists', { 
+		    	title: '检索结果',
 		    	data : msg.data
 		    });
     	}
     });
 });
 
-router.delete('/del', function(req, res, next) {
-    //patientCtrl.del(req, res);
+router.delete('/destroy/:id', function(req, res, next) {
+	patientCtrl.destroy(req, res, function (msg) {
+		res.send(JSON.stringify(msg));
+	});
 });
 
 router.put('/update', function(req, res, next) {

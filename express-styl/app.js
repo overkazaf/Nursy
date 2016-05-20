@@ -11,6 +11,7 @@ var lists = require('./routes/lists');
 var login = require('./routes/login');
 var detail = require('./routes/detail');
 var register = require('./routes/register');
+var doctor = require('./routes/doctor');
 var patient = require('./routes/patient');
 var mongoose = require('mongoose');
 var provider = require('./config/mongoose.js');
@@ -40,12 +41,18 @@ app.get('/', routes);
  * @return {[type]}        [description]
  */
 app.use('/deseaseType', deseaseType);
-// app.use('/users', users);
+app.use('/doctor', doctor);
 app.use('/lists', lists);
-// app.use('/login', login);
-// app.use('/register', register);
+app.use('/login', login);
+app.use('/register', register);
 app.use('/patient', patient);
-// app.use('/detail', detail);
+app.use('/detail', detail);
+app.use('/logout', function (req, res, next){
+  // 销毁登陆状态
+  res.render('login', {
+      title : "登陆窗口"
+    });
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

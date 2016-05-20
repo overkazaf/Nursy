@@ -3,22 +3,67 @@ extends layout
 block content
 	.row
 		.col-md-8.col-md-offset-2
-			form
-				.form-group
-					input(type="text", class="form-control", placeholder="请输入检索条件")
-				.pull-left
-					a(href="", class="ml20") 最近就诊
-					a(href="", class="ml20") 高血压
-					a(href="", class="ml20") 糖尿病
-				.pull-right
-					button(class="btn btn-primary", id="query") 查询
+			.form-group
+				input(type="text", id="patientName",class="form-control", placeholder="请输入患者名称")
+			.pull-left
+				a(href="", class="ml20") 最近就诊
+				a(href="", class="ml20") 高血压
+				a(href="", class="ml20") 糖尿病
+			.pull-right
+				button(class="btn btn-primary", id="query") 查询
 	hr
 	.row			
-		.col-md-8.col-md-offset-2
+		.col-md-10.col-md-offset-1
+			script.
+				$(function (){
+					$('#query').on('click', function (){
+						var patientName = $('#patientName').val();
+						if ($.trim(patientName)){
+							var url = 'http://localhost:3000/patient/get/' + patientName;
+						window.location.href = url;
+						} else {
+							window.location.href = "http://localhost:3000/lists";
+						}
+					});
+
+					$('#patientName').on('keydown', function (ev){
+						if (ev.keyCode == 13) {
+							$('#query').trigger('click');
+						}
+					});
+
+					$('.btn-default').on('click', function (){
+						var itemId = $(this).attr('data-pid');
+						window.open('http://localhost:3000/detail/' + itemId);
+					});
+
+					$('.btn-danger').on('click', function (){
+						var itemId = $(this).attr('data-pid');
+						var $this = $(this);
+						if (confirm('确定要删除这个病人的资料?'+itemId)) {
+							$.ajax({
+								url : 'http://localhost:3000/patient/destroy/' + itemId,
+								cache : false,
+								type : "DELETE",
+								dataType : "JSON",
+								success : function (data){
+									if (data.success == true) {
+										alert('删除成功');
+										$this.closest('tr').remove();
+									} else {
+										alert('删除失败');
+									}
+								},
+								error : function (){
+									console.error(arguments);
+								}
+							});
+						}
+					});
+				});
 			table.table.table-striped.table-condensed
 				thead
 					th 姓名
-					th 身份证号
 					th 病症分类
 					th 症状描述
 					th 联系电话
@@ -28,7 +73,6 @@ block content
 					mixin row(item)
 						tr
 							td #{item.name}
-							td #{item.person_id}
 							td #{item.desease_type}
 							td #{item.detail}
 							td #{item.phone}
@@ -37,8 +81,8 @@ block content
 								button(class="btn btn-default btn-xs", data-pid="#{item.id}") 
 									i(class="glyphicon glyphicon-eye-open")
 									详情
-								button(class="btn btn-danger btn-xs") 
-									i(class="glyphicon glyphicon-trash", data-pid="#{item.id}")
+								button(class="btn btn-danger btn-xs", data-pid="#{item.id}")
+									i(class="glyphicon glyphicon-trash")
 									删除
 					each value, key in data
 						+row(value)
@@ -53,11 +97,13 @@ block content
 						}
 						function buildPagination ($dom, c, t){
 							var tpl = '';
-							tpl += '<li><a href="#" aria-label="Previous"><span>&laquo;</span></a></li>';
-							for (var i = 1; i <= t; i++) {
-								tpl += pageItemTpl(i);
+							if (t > 0) {
+								tpl += '<li><a href="#" aria-label="Previous"><span>&laquo;</span></a></li>';
+								for (var i = 1; i <= t; i++) {
+									tpl += pageItemTpl(i);
+								}
+								tpl += '<li><a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>';
 							}
-							tpl += '<li><a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>';
 							$dom.html(tpl);
 						}
 						var $ul = $('#pagination');

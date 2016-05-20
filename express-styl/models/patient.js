@@ -7,14 +7,14 @@ var patientSchema = new mongoose.Schema({
 	name : String,
 	gender : String,
 	age : Number,
-	birthday : Date,
+	birthday : String,
 	phone : String,
 	person_id : String,
 	visit_date : String,
 	detail : String,
 	desease_type : String,
 	created_by : String,
-	created_date : Date
+	created_date : String
 });
 
 

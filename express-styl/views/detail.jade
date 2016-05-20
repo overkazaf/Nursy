@@ -1,5 +1,9 @@
 extends layout
 block content
+	style.
+		.patient-info-list{margin:0;padding:0;list-style-type:none;}
+		.patient-info{font-size:20px;width:400px;clear:both;line-height:32px;border-bottom:1px dashed #e5e5e5;}
+		.patient-info span{float:right;font-weight:bold;margin-left:40px;}
 	.row
 		.col-md-8.col-md-offset-2
 			.row
@@ -7,13 +11,32 @@ block content
 					img(class="thumbnail", src="/images/user.png")
 				.col-md-8
 					h1 患者信息
-					h4 姓名
-					h4 性别
-					h4 年龄
-					h4 手机号码
-					h4 就诊时间
+					ul.patient-info-list
+						li.patient-info 姓名  
+							span #{data.name}
+						li.patient-info 性别
+							span #{data.gender}
+						li.patient-info 年龄
+							span #{data.age}
+						li.patient-info 出生日期
+							span #{data.birthday}
+						li.patient-info 身份证号
+							span #{data.person_id}
+						li.patient-info 手机号码
+							span #{data.phone}
 	.row
 		.col-md-8.col-md-offset-2
 			hr
 			h2 患者详情
-				p
+			p
+				h4 就诊时间
+				.well
+					| #{data.visit_date}
+			p
+				h4 病症分类
+				.well
+					| #{data.desease_type}
+			p
+				h4 症状描述
+				.well
+					| #{data.detail}

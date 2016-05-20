@@ -4,12 +4,10 @@ var desTypeCtrl = require('../controllers/deseaseType.js');
 
 
 router.get('/', function(req, res, next) {
-	console.log('aaa');
 	desTypeCtrl.init(req, res);
 });
 
 router.get('/init', function(req, res, next) {
-	console.log('aaa');
 	desTypeCtrl.init(req, res);
 });
 

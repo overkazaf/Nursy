@@ -1,30 +1,91 @@
 extends layout
 block content
 	.col-md-5.col-md-offset-4
+		script.
+			$(function (){
+				$('#regBtn').on('click', function (ev) {
+					if (!validForm()) {
+						ev.preventDefault();
+					}
+
+					$.ajax({
+						url : "http://localhost:3000/doctor/add",
+						type : "POST",
+						dataType : "JSON",
+						data : $('#regForm').serialize(),
+						success : function (json){
+							alert(json.message);
+							if (json.success == true) {
+								location.href = "http://localhost:3000/lists";	
+							}
+						}
+					});
+				});
+
+				function validForm () {
+					var $username = $('#username');
+					var $password = $('#password');
+					var $validPassword = $('#validPassword');
+					var $phone = $('#username');
+					var $agree = $('#agree');
+					var $email = $('#email');
+
+					if (!$agree.prop('checked')) {
+						alert('请先同意用户协议');
+						return false;
+					}
+
+					if (!$.trim($username.val())) {
+						alert('请先填写用户名');
+						return false;
+					}
+
+
+					if (!$.trim($password.val())) {
+						alert('请先填写密码');
+						return false;
+					}
+
+					if ($.trim($validPassword.val()) != $.trim($password.val())) {
+						alert('两次输入的密码不一致');
+						return false;
+					}
+
+					$username.val($.trim($username.val()));
+					$password.val($.trim($password.val()));
+					$validPassword.val($.trim($validPassword.val()));
+					$phone.val($.trim($phone.val()));
+					$email.val($.trim($email.val()));
+					return true;
+				}
+			});
 		.panel.panel-default
 			.panel-heading
 				新用户注册
 				a(class="pull-right", href="/login") 登陆
 			.panel-body
-				form
+				form(id="regForm")
+					h4 必填
+					hr
 					.form-group
 						label 用户名
-						input(type="text", class="form-control", id="username", placeholder="用户名")
+						input(type="text", class="form-control", id="username", name="username", placeholder="用户名", required)
 					.form-group
 						label 密码
-						input(type="password", class="form-control", id="password")
+						input(type="password", name="password", class="form-control", id="password", required)
 					.form-group
 						label 确认密码
-						input(type="password", class="form-control", id="validPassword")
+						input(type="password", class="form-control", id="validPassword", required)
+					h4 选填
 					hr
 					.form-group
 						label 手机号
-						input(type="phone", class="form-control", id="username", placeholder="手机号")
+						input(type="number", class="form-control", id="phone", name="phone", placeholder="手机号")
 					.form-group
 						label 邮箱
-						input(type="email", class="form-control", id="username", placeholder="邮箱")
+						input(type="email", class="form-control", id="email", name="email", placeholder="邮箱")
 					.checkbox
 						label
-							input(type="checkbox")
+							input(type="checkbox", id="agree")
 							我同意本网站的用户协议
-					butotn(type="submit", class="btn btn-success btn-block") 注册
+					butotn(type="submit", id="regBtn", class="btn btn-success btn-block") 注册
